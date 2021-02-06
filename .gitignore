@@ -1,5 +1,6 @@
 data_query.cbp
 /bin
 /obj
+src/database.bdb
 data_query.layout
 data_query.depend

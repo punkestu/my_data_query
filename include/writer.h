@@ -7,10 +7,10 @@
 
 class writer{
 private:
-    std::fstream write;
+    std::fstream _write;
 public:
     void create(std::string queryName);
-    void write()
+    void write();
 };
 
 #endif // WRITER_H

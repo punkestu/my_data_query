@@ -7,9 +7,8 @@
 
 class reader{
 private:
-    std::ifstream read;
 public:
-    std::string read(int id, std::string id);
+    std::string read(int id, std::string parent);
 };
 
 #endif // READER_H

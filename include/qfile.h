@@ -5,14 +5,25 @@
 #include <fstream>
 #include <map>
 #include <vector>
+#include <iostream>
+
+struct dataG{
+    int longest;
+    std::string id;
+    std::vector<std::string> dataSet;
+};
+
+using data = std::vector<dataG>;
 
 class qfile{
 private:
     std::fstream io;
-    std::map<std::string, std::vector<std::string>> container;
+    data container;
 public:
     void init(std::string fileP);
     void save();
+    unsigned int dsLength(){return container.size()!=0?container[0].dataSet.size():0;}
+    data* getData(){return &container;}
 };
 
 #endif // QFILE_H
