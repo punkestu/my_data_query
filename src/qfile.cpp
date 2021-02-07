@@ -1,7 +1,7 @@
 #include "qfile.h"
 
 void qfile::init(std::string fileP){
-    io.open(fileP.c_str(), std::ios_base::in);
+    io.open(fileP.c_str(), std::ios_base::in | std::ios_base::binary);
     if(!io.fail()){
         std::cout<<"init"<<std::endl;
         unsigned int line = 0;
@@ -11,7 +11,6 @@ void qfile::init(std::string fileP){
             io>>temp;
             if(temp == "[n]"){
                 line++;
-                std::cout<<"no"<<std::endl;
             }else{
                 if(line == 0){
                     dataG dataT;
@@ -31,7 +30,6 @@ void qfile::init(std::string fileP){
                 }
             }
         }
-        std::cout<<"end loop"<<std::endl;
     }else{
         std::cout<<"fail to init"<<std::endl;
     }
@@ -42,19 +40,18 @@ void qfile::init(std::string fileP){
 void qfile::save(std::string fileN){
     io.open(fileN.c_str(), std::ios_base::binary|std::ios_base::out|std::ios_base::trunc);
     if(!io.fail()){
-
-    for(unsigned int i = 0; i < container.size(); i++){
-        io<<container[i].id;
-        io<<" ";
-    }
-    io<<"[n]\n";
-    for(unsigned int i = 0; i < container.size(); i++){
-        for(unsigned int j = 0; j < container[i].dataSet.size(); j++){
-            io<<container[i].dataSet[j];
+        for(unsigned int i = 0; i < container.size(); i++){
+            io<<container[i].id;
             io<<" ";
         }
         io<<"[n]\n";
-    }
+        for(unsigned int i = 0; i < container.size(); i++){
+            for(unsigned int j = 0; j < container[i].dataSet.size(); j++){
+                io<<container[i].dataSet[j];
+                io<<" ";
+            }
+            io<<"[n]\n";
+        }
     }else{
         std::cout<<"fail"<<std::endl;
     }

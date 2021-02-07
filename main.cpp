@@ -2,9 +2,11 @@
 
 int main(int argc, char* argv[]){
     qfile file;
-    file.init("src/database.bin");
-    addSet(&file, 2, "alamat");
-    file.save("src/database.bin");
+    file.init("src/database.bdb");
+    moveSet(&file, "alamat", 3);
+    //addSet(&file, 2, "alamat");
+    //std::cout<<file.getData()->at(0).dataSet[0]<<std::endl;
+    file.save("src/database.bdb");
     return 0;
 }
 //    std::cout<<file.getData()->size()<<std::endl;

@@ -4,6 +4,7 @@ void change(qfile* file, unsigned int id, std::string dataSet, std::string data)
     for(unsigned int i = 0; i < file->getData()->size(); i++){
         if(file->getData()->at(i).id == dataSet){
             file->getData()->at(i).dataSet[id-1] = data;
+            break;
         }
     }
 }
@@ -16,6 +17,7 @@ void add(qfile* file, unsigned int id, std::string dataSet, std::string data){
             }else{
                 it->dataSet.insert(it->dataSet.begin()+id-1, data);
             }
+            break;
         }
     }
 }
@@ -43,6 +45,24 @@ void eraseSet(qfile* file, std::string dataSet){
         if(it->id == dataSet){
             file->getData()->erase(it);
             it--;
+            break;
         }
+    }
+}
+
+void moveSet(qfile* file, std::string dataSet, unsigned int newPos){
+    dataG dataBuffer;
+    for(data::iterator it = file->getData()->begin(); it != file->getData()->end(); it++){
+        if(it->id == dataSet){
+            dataBuffer = *it;
+            file->getData()->erase(it);
+            it--;
+            break;
+        }
+    }
+    if(newPos<file->getData()->size()){
+        file->getData()->insert(file->getData()->begin()+newPos-1, dataBuffer);
+    }else{
+        file->getData()->push_back(dataBuffer);
     }
 }
