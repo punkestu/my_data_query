@@ -2,5 +2,6 @@ data_query.cbp
 /bin
 /obj
 src/database.bdb
+src/database.bin
 data_query.layout
 data_query.depend

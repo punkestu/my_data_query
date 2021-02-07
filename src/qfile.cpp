@@ -40,7 +40,7 @@ void qfile::init(std::string fileP){
 }
 
 void qfile::save(std::string fileN){
-    io.open(fileN.c_str(), std::ios_base::out|std::ios_base::ate);
+    io.open(fileN.c_str(), std::ios_base::binary|std::ios_base::out|std::ios_base::trunc);
     if(!io.fail()){
 
     for(unsigned int i = 0; i < container.size(); i++){
@@ -60,4 +60,10 @@ void qfile::save(std::string fileN){
     }
 
     io.close();
+}
+
+void qfile::clear(){
+    if(!container.empty()){
+        container.clear();
+    }
 }

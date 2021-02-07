@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 #include <iostream>
+#include <string>
 
 struct dataG{
     unsigned int longest;
@@ -22,6 +23,7 @@ private:
 public:
     void init(std::string fileP);
     void save(std::string fileN);
+    void clear();
     unsigned int dsLength(){return container.size()!=0?container[0].dataSet.size():0;}
     data* getData(){return &container;}
 };

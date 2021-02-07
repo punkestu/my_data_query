@@ -1,16 +1,9 @@
 #ifndef WRITER_H
 #define WRITER_H
 
-#include <string>
-#include <fstream>
-#include <map>
+#include <qfile.h>
 
-class writer{
-private:
-    std::fstream _write;
-public:
-    void create(std::string queryName);
-    void write();
-};
+void change(qfile* file, unsigned int id, std::string dataSet, std::string data);
+void erase(qfile* file, unsigned int id);
 
 #endif // WRITER_H

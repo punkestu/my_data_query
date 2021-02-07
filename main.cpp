@@ -1,13 +1,10 @@
-#include <qfile.h>
-#include <iostream>
-#include <string>
+#include <writer.h>
 
 int main(int argc, char* argv[]){
     qfile file;
-    file.init("src/database.bdb");
-    (*file.getData())[0].dataSet.push_back("xxxx");
-    (*file.getData())[1].dataSet.push_back("xxxx");
-    file.save("src/database.bdb");
+    file.init("src/database.bin");
+    erase(&file, 8);
+    file.save("src/database.bin");
     return 0;
 }
 //    std::cout<<file.getData()->size()<<std::endl;
