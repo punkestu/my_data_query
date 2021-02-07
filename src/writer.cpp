@@ -8,8 +8,30 @@ void change(qfile* file, unsigned int id, std::string dataSet, std::string data)
     }
 }
 
+void add(qfile* file, unsigned int id, std::string dataSet, std::string data){
+    for(data::iterator it = file->getData()->begin(); it != file->getData()->end(); it++){
+        if(it->id == dataSet){
+            if(id>file->dsLength()){
+                it->dataSet.push_back(data);
+            }else{
+                it->dataSet.insert(it->dataSet.begin()+id-1, data);
+            }
+        }
+    }
+}
+
+void addSet(qfile* file, unsigned int order, std::string dataSet){
+    dataG dSet;
+    dSet.id = dataSet;
+    dSet.longest = 0;
+    for(unsigned int i = 0; i < file->dsLength(); i++){
+        dSet.dataSet.push_back("-");
+    }
+    file->getData()->insert(file->getData()->begin()+order-1, dSet);
+}
+
 void erase(qfile* file, unsigned int id){
-    if(id<=file->getData()->at(0).dataSet.size()){
+    if(id<=file->dsLength()){
         for(unsigned int i = 0; i < file->getData()->size(); i++){
             file->getData()->at(i).dataSet.erase(file->getData()->at(i).dataSet.begin()+id-1);
         }
