@@ -3,7 +3,7 @@
 int main(int argc, char* argv[]){
     qfile file;
     file.init("src/database.bin");
-    erase(&file, 8);
+    eraseSet(&file,"tanggal_lahir");
     file.save("src/database.bin");
     return 0;
 }
