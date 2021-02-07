@@ -1,21 +1,53 @@
 #include <qfile.h>
 #include <iostream>
+#include <string>
 
 int main(int argc, char* argv[]){
     qfile file;
     file.init("src/database.bdb");
-    std::cout<<"id | ";
-    for(data::iterator it = file.getData()->begin(); it != file.getData()->end(); it++){
-        std::cout<<it->id<<" | ";
-    }
-    std::cout<<std::endl;
-    for(unsigned int j = 0; j < file.dsLength(); j++){
-        std::cout<<j+1<<" ";
-        for(unsigned int i = 0; i < file.getData()->size(); i++){
-            std::cout<<(*file.getData())[i].dataSet[j]<<" ";
-        }
-        std::cout<<std::endl;
-    }
-    std::cout<<std::endl;
+    (*file.getData())[0].dataSet.push_back("xxxx");
+    (*file.getData())[1].dataSet.push_back("xxxx");
+    file.save("src/database.bdb");
     return 0;
 }
+//    std::cout<<file.getData()->size()<<std::endl;
+//    std::cout<<"id";
+//    for(unsigned int i = 0; i < std::to_string(file.dsLength()).size()-2; i++){
+//        std::cout<<" ";
+//    }
+//    std::cout<<" | ";
+//    for(data::iterator it = file.getData()->begin(); it != file.getData()->end(); it++){
+//        std::cout<<it->id;
+//        for(unsigned int i = 0; i < ( it->longest-it->id.size()); i++){
+//            std::cout<<" ";
+//        }
+//        std::cout<<" | ";
+//    }
+//    std::cout<<std::endl;
+//    for(unsigned int i = 0; i < std::to_string(file.dsLength()).size(); i++){
+//        std::cout<<"-";
+//    }
+//    std::cout<<"-+-";
+//    for(data::iterator it = file.getData()->begin(); it != file.getData()->end(); it++){
+//        for(unsigned int i = 0; i < it->longest; i++){
+//            std::cout<<"-";
+//        }
+//        std::cout<<"-+-";
+//    }
+//    std::cout<<std::endl;
+//    for(unsigned int j = 0; j < file.dsLength(); j++){
+//        std::cout<<j+1;
+//        for(unsigned int i = 0; i < std::to_string(file.dsLength()).size()-std::to_string(j+1).size(); i++){
+//            std::cout<<" ";
+//        }
+//        std::cout<<" | ";
+//        for(unsigned int i = 0; i < file.getData()->size(); i++){
+//            std::cout<<(*file.getData())[i].dataSet[j];
+//            for(unsigned int k = 0; k < ((*file.getData())[i].longest-(*file.getData())[i].dataSet[j].size()); k++){
+//                std::cout<<" ";
+//            }
+//            std::cout<<" | ";
+//        }
+//        std::cout<<std::endl;
+//    }
+//    std::cout<<std::endl;

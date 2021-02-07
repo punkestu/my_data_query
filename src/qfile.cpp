@@ -5,6 +5,7 @@ void qfile::init(std::string fileP){
     if(!io.fail()){
         std::cout<<"init"<<std::endl;
         unsigned int line = 0;
+        unsigned int dataN = 0;
         while(!io.eof()){
             std::string temp;
             io>>temp;
@@ -16,10 +17,10 @@ void qfile::init(std::string fileP){
                     dataG dataT;
                     dataT.id = temp;
                     container.push_back(dataT);
-                    container[line].longest = 0;
+                    container[dataN].longest = temp.size();
+                    dataN++;
                 }else{
                     if(line<=container.size()){
-                        std::cout<<"add"<<std::endl;
                         container[line-1].dataSet.push_back(temp);
                         if(container[line-1].longest<temp.size()){
                             container[line-1].longest = temp.size();
@@ -33,6 +34,29 @@ void qfile::init(std::string fileP){
         std::cout<<"end loop"<<std::endl;
     }else{
         std::cout<<"fail to init"<<std::endl;
+    }
+
+    io.close();
+}
+
+void qfile::save(std::string fileN){
+    io.open(fileN.c_str(), std::ios_base::out|std::ios_base::ate);
+    if(!io.fail()){
+
+    for(unsigned int i = 0; i < container.size(); i++){
+        io<<container[i].id;
+        io<<" ";
+    }
+    io<<"[n]\n";
+    for(unsigned int i = 0; i < container.size(); i++){
+        for(unsigned int j = 0; j < container[i].dataSet.size(); j++){
+            io<<container[i].dataSet[j];
+            io<<" ";
+        }
+        io<<"[n]\n";
+    }
+    }else{
+        std::cout<<"fail"<<std::endl;
     }
 
     io.close();

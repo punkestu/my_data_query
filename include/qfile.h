@@ -8,7 +8,7 @@
 #include <iostream>
 
 struct dataG{
-    int longest;
+    unsigned int longest;
     std::string id;
     std::vector<std::string> dataSet;
 };
@@ -21,7 +21,7 @@ private:
     data container;
 public:
     void init(std::string fileP);
-    void save();
+    void save(std::string fileN);
     unsigned int dsLength(){return container.size()!=0?container[0].dataSet.size():0;}
     data* getData(){return &container;}
 };
