@@ -17,7 +17,12 @@ void add(qfile* file, unsigned int id, std::string dataSet, std::string data){
             }else{
                 it->dataSet.insert(it->dataSet.begin()+id-1, data);
             }
-            break;
+        }else{
+            if(id>file->dsLength()){
+                it->dataSet.push_back("-");
+            }else{
+                it->dataSet.insert(it->dataSet.begin()+id-1, "-");
+            }
         }
     }
 }

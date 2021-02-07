@@ -3,7 +3,8 @@
 int main(int argc, char* argv[]){
     qfile file;
     file.init("src/database.bdb");
-    moveSet(&file, "alamat", 3);
+    add(&file, 1, "nama", "bima");
+    summary(&file);
     //addSet(&file, 2, "alamat");
     //std::cout<<file.getData()->at(0).dataSet[0]<<std::endl;
     file.save("src/database.bdb");

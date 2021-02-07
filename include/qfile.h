@@ -25,6 +25,7 @@ public:
     void save(std::string fileN);
     void clear();
     unsigned int dsLength(){return container.size()!=0?container[0].dataSet.size():0;}
+    unsigned int nDataSet(){return container.size();}
     data* getData(){return &container;}
 };
 

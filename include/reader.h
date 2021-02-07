@@ -1,10 +1,8 @@
 #ifndef READER_H
 #define READER_H
 
-#include <string>
-#include <fstream>
-#include <map>
+#include "qfile.h"
 
-
+void summary(qfile* file);
 
 #endif // READER_H

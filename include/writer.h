@@ -1,7 +1,7 @@
 #ifndef WRITER_H
 #define WRITER_H
 
-#include <qfile.h>
+#include "reader.h"
 
 void change(qfile* file, unsigned int id, std::string dataSet, std::string data);
 void add(qfile* file, unsigned int id, std::string dataSet, std::string data);
