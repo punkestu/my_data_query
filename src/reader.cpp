@@ -1,6 +1,6 @@
 #include "reader.h"
 
-void summary(qfile* file){
+void bque::summary(qfile* file){
     if(file->nDataSet()!=0){
         if(file->dsLength()!=0){
             //top border

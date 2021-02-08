@@ -1,6 +1,6 @@
 #include "writer.h"
 
-void change(qfile* file, unsigned int id, std::string dataSet, std::string data){
+void bque::change(qfile* file, unsigned int id, std::string dataSet, std::string data){
     for(unsigned int i = 0; i < file->nDataSet(); i++){
         if(file->getData()->at(i).id == dataSet){
             file->getData()->at(i).dataSet[id-1] = data;
@@ -10,7 +10,7 @@ void change(qfile* file, unsigned int id, std::string dataSet, std::string data)
     }
 }
 
-void add(qfile* file, unsigned int id, std::string dataSet, std::string data){
+void bque::add(qfile* file, unsigned int id, std::string dataSet, std::string data){
     if(file->nDataSet()!=0){
         bool exist = false;
         for(data::iterator it = file->getData()->begin(); it != file->getData()->end(); it++){
@@ -50,7 +50,7 @@ void add(qfile* file, unsigned int id, std::string dataSet, std::string data){
     }
 }
 
-void addSet(qfile* file, unsigned int order, std::string dataSet){
+void bque::addSet(qfile* file, unsigned int order, std::string dataSet){
     bool exist = false;
     for(unsigned int i = 0; i < file->nDataSet(); i++){
         if(file->getData()->at(i).id == dataSet){exist = true; break;}
@@ -73,7 +73,7 @@ void addSet(qfile* file, unsigned int order, std::string dataSet){
     }
 }
 
-void erase(qfile* file, unsigned int id){
+void bque::erase(qfile* file, unsigned int id){
     if(id<=file->dsLength()){
         for(unsigned int i = 0; i < file->nDataSet(); i++){
             file->getData()->at(i).dataSet.erase(file->getData()->at(i).dataSet.begin()+id-1);
@@ -82,7 +82,7 @@ void erase(qfile* file, unsigned int id){
     }
 }
 
-void eraseSet(qfile* file, std::string dataSet){
+void bque::eraseSet(qfile* file, std::string dataSet){
     for(data::iterator it = file->getData()->begin(); it != file->getData()->end(); it++){
         if(it->id == dataSet){
             file->getData()->erase(it);
@@ -93,7 +93,7 @@ void eraseSet(qfile* file, std::string dataSet){
     }
 }
 
-void moveSet(qfile* file, std::string dataSet, unsigned int newPos){
+void bque::moveSet(qfile* file, std::string dataSet, unsigned int newPos){
     dataG dataBuffer;
     bool exist = false;
     for(data::iterator it = file->getData()->begin(); it != file->getData()->end(); it++){
