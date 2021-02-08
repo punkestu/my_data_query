@@ -1,44 +1,74 @@
 #include "qfile.h"
 
-void qfile::init(std::string fileP){
-    io.open(fileP.c_str(), std::ios_base::in | std::ios_base::binary);
+void qfile::create(std::string fileN, bool force){
+    bool exist = false;
+    io.open(fileN.c_str(), std::ios_base::in);
     if(!io.fail()){
-        std::cout<<"init"<<std::endl;
+        exist = true;
+        if(!force){
+            std::cout<<"i*file existed, add [force] parameter to overwrite the existed file"<<std::endl;
+        }
+    }
+    io.close();
+    if(!exist){
+        io.open(fileN.c_str(), std::ios_base::out);
+        io.close();
+        std::cout<<"i*file created"<<std::endl;
+    }else{
+        if(force){
+            io.open(fileN.c_str(), std::ios_base::out);
+            io.close();
+            std::cout<<"i*existed file was overwrited, new file created"<<std::endl;
+        }
+    }
+}
+
+void qfile::init(std::string fileP){
+    io.open(fileP.c_str(), std::ios_base::in);
+    if(!io.fail()){
+        std::cout<<fileP<<" inited"<<std::endl;
         unsigned int line = 0;
         unsigned int dataN = 0;
         while(!io.eof()){
             std::string temp;
             io>>temp;
-            if(temp == "[n]"){
-                line++;
-            }else{
-                if(line == 0){
-                    dataG dataT;
-                    dataT.id = temp;
-                    container.push_back(dataT);
-                    container[dataN].longest = temp.size();
-                    dataN++;
+            //std::cout<<int('\0')<<std::endl;
+            if(io.peek()!=std::ifstream::traits_type::eof()){
+                if(temp == "[n]"){
+                    line++;
                 }else{
-                    if(line<=container.size()){
-                        container[line-1].dataSet.push_back(temp);
-                        if(container[line-1].longest<temp.size()){
-                            container[line-1].longest = temp.size();
-                        }
+                    if(line == 0){
+                        dataG dataT;
+                        dataT.id = temp;
+                        container.push_back(dataT);
+                        container[dataN].longest = temp.size();
+                        dataN++;
                     }else{
-                        break;
+                        if(line<=container.size()){
+                            container[line-1].dataSet.push_back(temp);
+                            if(container[line-1].longest<temp.size()){
+                                container[line-1].longest = temp.size();
+                            }
+                        }else{
+                            break;
+                        }
                     }
                 }
+            }else{
+                std::cout<<"i*empty query is opened"<<std::endl;
+                break;
             }
         }
     }else{
-        std::cout<<"fail to init"<<std::endl;
+        std::cout<<"i*fail to open file"<<std::endl;
     }
 
     io.close();
 }
 
 void qfile::save(std::string fileN){
-    io.open(fileN.c_str(), std::ios_base::binary|std::ios_base::out|std::ios_base::trunc);
+    if(!container.empty()){
+    io.open(fileN.c_str(), std::ios_base::out);
     if(!io.fail()){
         for(unsigned int i = 0; i < container.size(); i++){
             io<<container[i].id;
@@ -53,10 +83,13 @@ void qfile::save(std::string fileN){
             io<<"[n]\n";
         }
     }else{
-        std::cout<<"fail"<<std::endl;
+        std::cout<<"i*fail to open file"<<std::endl;
     }
 
     io.close();
+    }else{
+        std::cout<<"i*nothing to save / no change"<<std::endl;
+    }
 }
 
 void qfile::clear(){

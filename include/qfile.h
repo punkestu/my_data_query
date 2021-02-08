@@ -21,6 +21,7 @@ private:
     std::fstream io;
     data container;
 public:
+    void create(std::string fileN, bool force = false);
     void init(std::string fileP);
     void save(std::string fileN);
     void clear();

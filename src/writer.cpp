@@ -1,7 +1,7 @@
 #include "writer.h"
 
 void change(qfile* file, unsigned int id, std::string dataSet, std::string data){
-    for(unsigned int i = 0; i < file->getData()->size(); i++){
+    for(unsigned int i = 0; i < file->nDataSet(); i++){
         if(file->getData()->at(i).id == dataSet){
             file->getData()->at(i).dataSet[id-1] = data;
             break;
@@ -28,18 +28,30 @@ void add(qfile* file, unsigned int id, std::string dataSet, std::string data){
 }
 
 void addSet(qfile* file, unsigned int order, std::string dataSet){
-    dataG dSet;
-    dSet.id = dataSet;
-    dSet.longest = 0;
-    for(unsigned int i = 0; i < file->dsLength(); i++){
-        dSet.dataSet.push_back("-");
+    bool exist = false;
+    for(unsigned int i = 0; i < file->nDataSet(); i++){
+        if(file->getData()->at(i).id == dataSet){exist = true; break;}
     }
-    file->getData()->insert(file->getData()->begin()+order-1, dSet);
+    if(!exist){
+        dataG dSet;
+        dSet.id = dataSet;
+        dSet.longest = 0;
+        for(unsigned int i = 0; i < file->dsLength(); i++){
+            dSet.dataSet.push_back("-");
+        }
+        if(file->nDataSet()>order){
+            file->getData()->insert(file->getData()->begin()+order-1, dSet);
+        }else{
+            file->getData()->push_back(dSet);
+        }
+    }else{
+        std::cout<<"set existed"<<std::endl;;
+    }
 }
 
 void erase(qfile* file, unsigned int id){
     if(id<=file->dsLength()){
-        for(unsigned int i = 0; i < file->getData()->size(); i++){
+        for(unsigned int i = 0; i < file->nDataSet(); i++){
             file->getData()->at(i).dataSet.erase(file->getData()->at(i).dataSet.begin()+id-1);
         }
     }
