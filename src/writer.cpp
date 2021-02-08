@@ -4,26 +4,49 @@ void change(qfile* file, unsigned int id, std::string dataSet, std::string data)
     for(unsigned int i = 0; i < file->nDataSet(); i++){
         if(file->getData()->at(i).id == dataSet){
             file->getData()->at(i).dataSet[id-1] = data;
+            std::cout<<"i*data changed"<<std::endl;
             break;
         }
     }
 }
 
 void add(qfile* file, unsigned int id, std::string dataSet, std::string data){
-    for(data::iterator it = file->getData()->begin(); it != file->getData()->end(); it++){
-        if(it->id == dataSet){
-            if(id>file->dsLength()){
-                it->dataSet.push_back(data);
-            }else{
-                it->dataSet.insert(it->dataSet.begin()+id-1, data);
-            }
-        }else{
-            if(id>file->dsLength()){
-                it->dataSet.push_back("-");
-            }else{
-                it->dataSet.insert(it->dataSet.begin()+id-1, "-");
+    if(file->nDataSet()!=0){
+        bool exist = false;
+        for(data::iterator it = file->getData()->begin(); it != file->getData()->end(); it++){
+            if(it->id == dataSet){
+                exist = true;
+                break;
             }
         }
+        if(exist){
+            for(data::iterator it = file->getData()->begin(); it != file->getData()->end(); it++){
+                if(it->id == dataSet){
+                    if(it->longest<data.size()){
+                        it->longest = data.size();
+                    }
+                    if(id>file->dsLength()){
+                        it->dataSet.push_back(data);
+                    }else{
+                        it->dataSet.insert(it->dataSet.begin()+id-1, data);
+                    }
+                    std::cout<<"i*data added"<<std::endl;
+                }else{
+                    if(it->longest<1){
+                        it->longest = 1;
+                    }
+                    if(id>file->dsLength()){
+                        it->dataSet.push_back("-");
+                    }else{
+                        it->dataSet.insert(it->dataSet.begin()+id-1, "-");
+                    }
+                }
+            }
+        }else{
+            std::cout<<"i*set not found"<<std::endl;
+        }
+    }else{
+        std::cout<<"i*query is empty, set not found"<<std::endl;
     }
 }
 
@@ -44,8 +67,9 @@ void addSet(qfile* file, unsigned int order, std::string dataSet){
         }else{
             file->getData()->push_back(dSet);
         }
+        std::cout<<"i*set created"<<std::endl;
     }else{
-        std::cout<<"set existed"<<std::endl;;
+        std::cout<<"i*set existed"<<std::endl;
     }
 }
 
@@ -54,6 +78,7 @@ void erase(qfile* file, unsigned int id){
         for(unsigned int i = 0; i < file->nDataSet(); i++){
             file->getData()->at(i).dataSet.erase(file->getData()->at(i).dataSet.begin()+id-1);
         }
+        std::cout<<"i*data erased"<<std::endl;
     }
 }
 
@@ -62,6 +87,7 @@ void eraseSet(qfile* file, std::string dataSet){
         if(it->id == dataSet){
             file->getData()->erase(it);
             it--;
+            std::cout<<"i*set erased"<<std::endl;
             break;
         }
     }
@@ -69,17 +95,24 @@ void eraseSet(qfile* file, std::string dataSet){
 
 void moveSet(qfile* file, std::string dataSet, unsigned int newPos){
     dataG dataBuffer;
+    bool exist = false;
     for(data::iterator it = file->getData()->begin(); it != file->getData()->end(); it++){
         if(it->id == dataSet){
+            exist = true;
             dataBuffer = *it;
             file->getData()->erase(it);
             it--;
             break;
         }
     }
-    if(newPos<file->getData()->size()){
-        file->getData()->insert(file->getData()->begin()+newPos-1, dataBuffer);
+    if(exist){
+        if(newPos<file->getData()->size()){
+            file->getData()->insert(file->getData()->begin()+newPos-1, dataBuffer);
+        }else{
+            file->getData()->push_back(dataBuffer);
+        }
+        std::cout<<"i*moved"<<std::endl;
     }else{
-        file->getData()->push_back(dataBuffer);
+        std::cout<<"i*set not found"<<std::endl;
     }
 }

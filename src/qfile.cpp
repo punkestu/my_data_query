@@ -32,7 +32,6 @@ void qfile::init(std::string fileP){
         while(!io.eof()){
             std::string temp;
             io>>temp;
-            //std::cout<<int('\0')<<std::endl;
             if(io.peek()!=std::ifstream::traits_type::eof()){
                 if(temp == "[n]"){
                     line++;
@@ -55,8 +54,10 @@ void qfile::init(std::string fileP){
                     }
                 }
             }else{
-                std::cout<<"i*empty query is opened"<<std::endl;
-                break;
+                if(dataN == 0){
+                    std::cout<<"i*empty query is opened"<<std::endl;
+                    break;
+                }
             }
         }
     }else{
@@ -67,33 +68,40 @@ void qfile::init(std::string fileP){
 }
 
 void qfile::save(std::string fileN){
-    if(!container.empty()){
+    //if(!container.empty()){
     io.open(fileN.c_str(), std::ios_base::out);
     if(!io.fail()){
-        for(unsigned int i = 0; i < container.size(); i++){
-            io<<container[i].id;
-            io<<" ";
-        }
-        io<<"[n]\n";
-        for(unsigned int i = 0; i < container.size(); i++){
-            for(unsigned int j = 0; j < container[i].dataSet.size(); j++){
-                io<<container[i].dataSet[j];
+        if(!container.empty()){
+            for(unsigned int i = 0; i < container.size(); i++){
+                io<<container[i].id;
                 io<<" ";
             }
             io<<"[n]\n";
+            for(unsigned int i = 0; i < container.size(); i++){
+                for(unsigned int j = 0; j < container[i].dataSet.size(); j++){
+                    io<<container[i].dataSet[j];
+                    io<<" ";
+                }
+                io<<"[n]\n";
+            }
+        }else{
+            io<<" ";
         }
     }else{
         std::cout<<"i*fail to open file"<<std::endl;
     }
 
     io.close();
-    }else{
-        std::cout<<"i*nothing to save / no change"<<std::endl;
-    }
+//    }else{
+//        std::cout<<"i*nothing to save / no change"<<std::endl;
+//    }
 }
 
 void qfile::clear(){
     if(!container.empty()){
         container.clear();
+        std::cout<<"i*clear"<<std::endl;
+    }else{
+        std::cout<<"i*nothing to clear"<<std::endl;
     }
 }

@@ -2,6 +2,8 @@
 
 int main(int argc, char* argv[]){
     qfile file;
-    file.create("new.bdb", true);
+    file.init("src/database.bdb");
+    summary(&file);
+    file.save("src/database.bdb");
     return 0;
 }
