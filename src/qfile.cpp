@@ -24,15 +24,15 @@ void qfile::create(std::string fileN, bool force){
 }
 
 void qfile::init(std::string fileP){
-    io.open(fileP.c_str(), std::ios_base::in);
+    io.open(fileP.c_str(), std::ios_base::in|std::ios_base::binary);
     if(!io.fail()){
         std::cout<<fileP<<" inited"<<std::endl;
         unsigned int line = 0;
         unsigned int dataN = 0;
         while(!io.eof()){
-            std::string temp;
-            io>>temp;
             if(io.peek()!=std::ifstream::traits_type::eof()){
+                std::string temp;
+                io>>temp;
                 if(temp == "[n]"){
                     line++;
                 }else{
@@ -67,24 +67,49 @@ void qfile::init(std::string fileP){
     io.close();
 }
 
+void qfile::tread(std::string fileP){
+    io.open(fileP.c_str(), std::ios_base::in);
+
+    int csize;
+    io.read(reinterpret_cast<char*>(&csize), sizeof(int));
+    container.resize(csize);
+    std::cout<<container.size()<<std::endl;
+    std::string cdata;
+    int strsz;
+    io.read(reinterpret_cast<char*>(&strsz), sizeof(int));
+    io.read(reinterpret_cast<char*>(&cdata), strsz*sizeof(dataG));
+    container[0].id = cdata;
+    std::cout<<container[0].id<<std::endl;
+
+    io.close();
+}
+
 void qfile::save(std::string fileN){
     //if(!container.empty()){
-    io.open(fileN.c_str(), std::ios_base::out);
+    io.open(fileN.c_str(), std::ios_base::out|std::ios_base::binary);
     if(!io.fail()){
         if(!container.empty()){
-            for(unsigned int i = 0; i < container.size(); i++){
-                io<<container[i].id;
-                io<<" ";
+            int csize = container.size();            io.write(reinterpret_cast<char*>(&csize), sizeof(int));
+            for(int i = 0; i < csize; i++){
+                std::string id = container[i].id;
+                int idsize = id.size();
+                io.write(reinterpret_cast<char*>(&idsize), sizeof(int));
+                io.write(reinterpret_cast<char*>(&id), container[i].id.size()*sizeof(std::string));
             }
-            io<<"[n]\n";
-            for(unsigned int i = 0; i < container.size(); i++){
-                for(unsigned int j = 0; j < container[i].dataSet.size(); j++){
-                    io<<container[i].dataSet[j];
-                    io<<" ";
-                }
-                io<<"[n]\n";
-            }
+//            for(unsigned int i = 0; i < container.size(); i++){
+//                io<<container[i].id;
+//                io<<" ";
+//            }
+//            io<<"[n]\n";
+//            for(unsigned int i = 0; i < container.size(); i++){
+//                for(unsigned int j = 0; j < container[i].dataSet.size(); j++){
+//                    io<<container[i].dataSet[j];
+//                    io<<" ";
+//                }
+//                io<<"[n]\n";
+//            }
         }else{
+            std::cout<<"nothing"<<std::endl;
             io<<" ";
         }
     }else{
