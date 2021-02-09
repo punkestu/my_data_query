@@ -5,6 +5,7 @@
 
 namespace bque{
     void summary(qfile* file);
+    std::string get(qfile* file, unsigned int id, std::string dataSet);
 }
 
 #endif // READER_H

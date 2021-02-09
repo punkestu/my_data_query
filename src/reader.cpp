@@ -143,3 +143,25 @@ void bque::summary(qfile* file){
         std::cout<<"i*blank query"<<std::endl;
     }
 }
+
+std::string bque::get(qfile* file, unsigned int id, std::string dataSet){
+    if(id<=file->dsLength()){
+        data::iterator it;
+        bool exist = false;
+        for(it = file->getData()->begin(); it != file->getData()->end(); it++){
+            if(it->id == dataSet){
+                exist = true;
+                break;
+            }
+        }
+        if(exist){
+            return it->dataSet[id-1];
+        }else{
+            std::cout<<"i*data set does not exist"<<std::endl;
+            return "";
+        }
+    }else{
+        std::cout<<"i*out of range"<<std::endl;
+        return "";
+    }
+}
