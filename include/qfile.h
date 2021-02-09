@@ -23,6 +23,7 @@ private:
 public:
     void create(std::string fileN, bool force = false);
     void init(std::string fileP);
+    void tread(std::string fileP);//temporary
     void save(std::string fileN);
     void clear();
     unsigned int dsLength(){return container.size()!=0?container[0].dataSet.size():0;}
